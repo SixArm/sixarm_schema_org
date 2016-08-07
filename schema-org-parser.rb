@@ -1,4 +1,39 @@
 #!/usr/bin/env ruby
+
+##
+# Schema.org parser - work in progress.
+#
+# This command fetches web pages from http://schema.org,
+# and parses the pages to extract schema names, properties,
+# and expected types.
+#
+# Example:
+#
+#     $ schema-org-parser.rb Person
+#     {"Person"=>
+#       {:properties=>
+#         [{"additionalName"=>{:expected_types=>["Text"]}},
+#          {"address"=>{:expected_types=>["PostalAddress", "Text"]}},
+#          {"affiliation"=>{:expected_types=>["Organization"]}},
+#          …
+#
+# Example with output format SQL:
+#
+#     $ schema-org-parser.rb --output sql Person
+#     create table person (
+#       additional_name text,
+#       address postal_address,
+#       affiliation organization,
+#       …
+#
+# Command: schema-org-parser.rb
+# Version: 0.5.0
+# Created: 2016-08-05
+# Updated: 2016-08-07
+# License: GPL
+# Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+##
+
 require 'optparse'
 require 'ostruct'
 require 'pp'
@@ -230,7 +265,10 @@ options = ScriptOptionsManager.parse!(ARGV)
 ARGV.each{|arg|
   term = arg
   term_info = { term => { :properties => SchemaOrg::TermLoader.load(term) }}
-  if options.output == :sql
+  case options.output
+  when :sql
     puts OutputFormatSQL.output_term_info(term_info)
+  else
+    pp term_info
   end
 }
