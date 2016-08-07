@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
 ##
-# Schema.org parser - work in progress.
+# Schema.org parser
 #
 # This command fetches web pages from http://schema.org,
-# and parses the pages to extract schema names, properties,
-# and expected types.
+# then parses the pages to extract schema names, properties,
+# and expected types. Finally, this command outputs the results.
 #
 # Example:
 #
@@ -25,6 +25,11 @@
 #       address postal_address,
 #       affiliation organization,
 #       …
+#
+# This command is a work in progress:
+#
+#  * It outputs preetty pprit infformation that's usable.
+#  * It outputs SQL that is a similar format, but not valid.
 #
 # Command: schema-org-parser.rb
 # Version: 0.5.0
